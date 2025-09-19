@@ -1,0 +1,154 @@
+﻿<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                background-color: rgb(240, 240, 240);
+                text-align: center;
+                font-family: "Noto Sans KR", sans-serif, "Malgun Gothic", "굴림", "Gulim", "Arial"; 
+            }
+            header {
+                margin: 10px;
+            }
+            .calculator {
+                width: 400px;
+                min-height: 600px;
+                margin: auto;
+                padding: 25px 15px;
+                border-radius: 5px;
+                background-color: dimgray;
+                box-shadow: 7px 7px 7px 5px gray;
+                font-size: 1.2rem;
+                color: white;
+            }
+            .calculator__inputs {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-auto-rows: 45px;
+                align-items: start;
+                padding: 10px;
+                border: 1px solid white;
+                border-radius: 3px;
+            }
+            .calculator__inputs > input {
+                padding: 5px;
+                width: 150px;
+                line-height: 1.2rem;
+                font-size: 1.2rem;
+            }
+            #runCalc {
+                margin-top: 15px;
+                width: 90px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+            #container__results {
+                position: relative;
+                margin-top: 20px;
+            }
+            #copyresults {
+                position: absolute;
+                top: 5px;
+                Right: 5px;
+                width: 55px;
+                height: 25px;
+                border: 0;
+                border-radius: 10px;
+            }
+            #copyresults:hover {
+                background-color:#0056b3;
+                color: white;
+            }
+            #copyresults:active {
+                background-color: #004085;
+                color: white;
+                transform: translateY(2px);
+            }
+            #results {
+                padding: 20px;
+                width: 400px;
+                height: 150px;
+                border: 3px inset lightgray;
+                font-family: inherit;
+                font-size: 1.2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <header><h2>빈혈 - 철분 요구량</h2></header>
+        <main>
+            <div class="calculator">
+                <div id="inputs" class="calculator__inputs">
+                    <label for="weight">체중 (Kg)</label><input id="weight" type="number">
+                    <label for="hb">Hb (g/dL):  </label><input id="hb" type="number">
+                    <label for="targetHb">목표 Hb (g/dL):  </label><input id="targetHb" type="number" value="13">
+                    <label for="targetIron">저장철 (mg):  </label><input id="storedIron" type="number" value="500">
+                </div>
+                <button id="runCalc">계산하기</button>
+                <div id="container__results">
+                    <button id="copyresults">COPY</button>
+                    <textarea id="results" name="results"></textarea>
+                </div>
+            </div>
+        </main>
+        <footer style="width: 400px; margin: auto;">
+            <div style="margin-top: 15px; font-style: italic; font-size: 0.8rem;">Ganzoni's equation: Total iron deficit(mg) = weight(kg) × (target hemoglobin – actual hemoglobin(g/dL)) × 2.4 + iron stores(mg)</div>
+        </footer>
+    <script>
+        const inputBox = document.getElementById('inputs');
+        const input_weight = document.getElementById('weight');
+        const input_hb = document.getElementById('hb');
+        const input_targetHb = document.getElementById('targetHb');
+        const input_storedIron = document.getElementById('storedIron');
+        const textarea_results = document.getElementById('results')
+
+        inputBox.addEventListener('keydown', (e) => {
+            if (e.key == "Enter") {
+                CalculateResult();
+            }
+        });
+
+        input_weight.addEventListener('input', (e) => {
+            const wt = Number(e.target.value);
+            if (wt < 0) {
+                input_storedIron.value = 0;
+            }else if (wt < 34) {
+                input_storedIron.value = Math.round(wt * 15);
+            }else{
+                input_storedIron.value = 500;
+            }
+        });
+        input_weight.addEventListener('focus', (e) => {e.target.select();});
+        input_hb.addEventListener('focus', (e) => {e.target.select();});
+
+        document.getElementById('runCalc').addEventListener('click', CalculateResult)
+        function CalculateResult(){
+            let result = "";
+            const wt = Number(input_weight.value);
+            const hb = Number(input_hb.value);
+            const targetHb = Number(input_targetHb.value);
+            let storedIron = Number(input_storedIron.value);
+            if (wt <= 0) {
+                result = "체중을 정확히 입력해주세요."
+            }else if (hb <= 0) {
+                result = "Hb 값을 정확히 입력해주세요."
+            }else if (targetHb <= 0) {
+                result = "목표 Hb 값을 정확히 입력해주세요."
+            }else if (hb >= targetHb) {
+                result = "목표 Hb을 현재 Hb 보다 높이 설정해주세요."
+            }else if (storedIron < 0) {
+                result = "저장철은 0 이상 입력해주세요."
+            }else {
+                const neededIron = Math.floor(wt * (targetHb - hb) * 2.4);
+                storedIron = Math.floor(storedIron);
+                const totalIron = neededIron + storedIron;
+                result = "급성 빈혈교정: " + neededIron + " mg\n저장철 요구량: " + storedIron + " mg\n전체 요구량: " + totalIron + " mg";
+            }
+            textarea_results.value = result;
+        }
+        document.getElementById('copyresults').addEventListener('click', () => {
+            navigator.clipboard.writeText(textarea_results.value);
+        });
+    </script>
+    </body>
+</html>
