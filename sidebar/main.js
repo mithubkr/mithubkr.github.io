@@ -33,9 +33,12 @@ function createButtons(objArr){
         container.appendChild(div);
 
         document.body.appendChild(button);
-        button.addEventListener('click', buttonClicked);
-    }
-    async function buttonClicked(e){
-        chrome.webview.hostObjects.ahkFunc.SideItemClicked(e.target.value);
     }
 }
+
+document.body.addEventListener('click', async (event) => {
+    const clickedButton = event.target.closest('button');
+    if (clickedButton) {
+        chrome.webview.hostObjects.ahkFunc.SideItemClicked(clickedButton.value);
+    }
+});
