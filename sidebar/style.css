@@ -1,5 +1,6 @@
 ﻿body {
-    width:295px;
+    width: 295px;
+    background-color: rgb(240, 240, 240);
 }
 button {
     display: block;
@@ -29,3 +30,4 @@ button {
     font-size: 0.8rem;
     font-style: italic;
 }
+
