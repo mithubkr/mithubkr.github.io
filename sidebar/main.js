@@ -1,5 +1,4 @@
-﻿function createButtons(objArr){
-    //const body = document.body;
+function createButtons(objArr){
     let button, div, container, subject, description, link, update
     for (i = 0; i < objArr.length; i++){
         subject = objArr[i].subject;
@@ -34,31 +33,9 @@
         container.appendChild(div);
 
         document.body.appendChild(button);
-        //button.addEventListener('click', buttonClicked);
+        button.addEventListener('click', buttonClicked);
     }
-
-    async function buttonClicked(){
-        chrome.webview.hostObjects.ahkFunc.SideItemClicked()
+    async function buttonClicked(e){
+        chrome.webview.hostObjects.ahkFunc.SideItemClicked(e.target.value);
     }
 }
-
-testObjArr = [
-    {
-        subject: "소아청소년 성장상태 측정계산기",
-        description: "질병관리청 2017년 소아청소년 성장도표 기반의 가나다라 동해물과 백두산이 마르고 닳는동안 계산하는 계산기",
-        tags: ["소아", "청소년", "성장", "계산기", "도표", "그래프"],
-        link: "https://knhanes.kdca.go.kr/knhanes/grtcht/clclt/measClclt.do",
-        update: 250916,
-        priority: 9
-    },
-    {
-        subject: "철결핍 빈혈에서의 철분 요구량",
-        description: "Ganzoni equation",
-        tags: ["빈혈", "철결핍", "철분", "저장철", "계산기"],
-        link: "https://mithubkr.github.io/calculator/IronDeficitCalculator.html",
-        update: 250916,
-        priority: 9
-    }
-];
-
-createButtons(testObjArr);
