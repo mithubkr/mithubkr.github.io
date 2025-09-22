@@ -1,3 +1,5 @@
+console.log('hello world');
+
 function createButtons(objArr){
     console.log(objArr);
     let button, div, container, subject, description, link, update
@@ -43,4 +45,5 @@ document.body.addEventListener('click', async (event) => {
         chrome.webview.hostObjects.ahkFunc.SideItemClicked(clickedButton.value);
     }
 });
+
 
