@@ -29,7 +29,7 @@ function createButtons(objArr){
 
         div = document.createElement('div');
         div.className = "button__update";
-        div.textContent = update;
+        div.textContent = update ? update: "";
         container.appendChild(div);
 
         document.body.appendChild(button);
@@ -42,3 +42,4 @@ document.body.addEventListener('click', async (event) => {
         chrome.webview.hostObjects.ahkFunc.SideItemClicked(clickedButton.value);
     }
 });
+
