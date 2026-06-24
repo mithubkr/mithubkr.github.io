@@ -57,9 +57,17 @@
             background: #e8e8e8;
         }
     
-        .counter {
+        .answer {
             margin-top: 10px;
             color: #666;
+            font-size: 28px;
+
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+      
+        .answer:hover {
+            opacity: 1;
         }
     </style>
   </head>
@@ -76,7 +84,7 @@
             <button class="nav-btn" id="nextBtn">&gt;</button>
         </div>
     
-        <div class="counter" id="counter"></div>
+        <div class="answer" id="answer"></div>
     
     </main>
     
@@ -89,7 +97,7 @@
         let currentIndex = 0;
     
         const imageElement = document.getElementById("testImage");
-        const counterElement = document.getElementById("counter");
+        const answerElement = document.getElementById("answer");
     
         function updateImage() {
             imageElement.src =
@@ -97,14 +105,14 @@
                 imageIds[currentIndex] +
                 imageExtension;
         
-            counterElement.textContent = imageIds[currentIndex];
+            answerElement.textContent = imageIds[currentIndex];
         }
     
         document.getElementById("prevBtn").onclick = () => {
             currentIndex--;
     
             if (currentIndex < 0) {
-                currentIndex = images.length - 1;
+                currentIndex = imageIds.length - 1;
             }
     
             updateImage();
@@ -113,7 +121,7 @@
         document.getElementById("nextBtn").onclick = () => {
             currentIndex++;
     
-            if (currentIndex >= images.length) {
+            if (currentIndex >= imageIds.length) {
                 currentIndex = 0;
             }
     
