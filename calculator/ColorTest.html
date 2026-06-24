@@ -66,31 +66,38 @@
   
   <body>
     <main>
-      <div class="image-container">
-          <img id="testImage" src="" alt="색각 테스트">
-      </div>
-  
-      <div class="controls">
-          <button class="nav-btn" id="prevBtn">&lt;</button>
-          <button class="nav-btn" id="nextBtn">&gt;</button>
-      </div>
-    </main>
-  
-    <script>
-        const images = [
-            "images/colortest_13.jpg",
-            "images/2.jpg",
-            "images/3.jpg"
-        ];
     
-      const imagePath = "../images/colortest_";
-      const imageExtension = ".jpg";
+        <div class="image-container">
+            <img id="testImage" src="" alt="색각 테스트">
+        </div>
+    
+        <div class="controls">
+            <button class="nav-btn" id="prevBtn">&lt;</button>
+            <button class="nav-btn" id="nextBtn">&gt;</button>
+        </div>
+    
+        <div class="counter" id="counter"></div>
+    
+    </main>
+    
+    <script>
+        const imageIds = [13, 4, 8, 77, 84];
+
+        const imagePath = "../images/colortest_";
+        const imageExtension = ".jpg";
+        
         let currentIndex = 0;
     
         const imageElement = document.getElementById("testImage");
-       
+        const counterElement = document.getElementById("counter");
+    
         function updateImage() {
-            imageElement.src = images[currentIndex];
+            imageElement.src =
+                imagePath +
+                imageIds[currentIndex] +
+                imageExtension;
+        
+            counterElement.textContent = imageIds[currentIndex];
         }
     
         document.getElementById("prevBtn").onclick = () => {
